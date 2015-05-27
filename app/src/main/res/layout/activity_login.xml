@@ -14,7 +14,7 @@
             android:src="@drawable/index_logo"
             android:layout_marginBottom="37dp"
             android:layout_above="@+id/user_name"
-            android:layout_alignEnd="@+id/btnSingIn"
+            android:layout_alignEnd="@+id/btnLogin"
             android:layout_alignParentTop="true" />
 
         <EditText
