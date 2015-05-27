@@ -1,9 +1,12 @@
-package com.tfg.sawan.bsecure;
+package com.tfg.sawan.bsecure.splash;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.tfg.sawan.bsecure.MainActivity;
+import com.tfg.sawan.bsecure.R;
 
 /**
  * File name:	com.tfg.sawan.bsecure
