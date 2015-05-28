@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.tfg.sawan.bsecure.MainActivity;
 import com.tfg.sawan.bsecure.R;
+import com.tfg.sawan.bsecure.credentials.Login;
 
 /**
  * File name:	com.tfg.sawan.bsecure
@@ -53,7 +54,7 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent main_activity = new Intent(SplashScreen.this, MainActivity.class);
+                Intent main_activity = new Intent(SplashScreen.this, Login.class);
                 startActivity(main_activity);
 
                 // close the activity
