@@ -4,6 +4,8 @@ package com.tfg.sawan.bsecure;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.widget.TextView;
 
 /**
  * File name:	com.tfg.sawan.bsecure
@@ -34,9 +36,22 @@ import android.support.v7.app.ActionBarActivity;
 
 public class MainActivity extends Activity {
 
+    /** Token */
+    private String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // get Extras (Token)
+        Bundle extras =  getIntent().getExtras();
+        if (extras != null) {
+            token = extras.getString("token");
+            Log.d("Http Post Response:", token);
+        }
+
+        TextView test = (TextView) findViewById(R.id.token);
+        test.setText(token);
     }
 }
