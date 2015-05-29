@@ -56,7 +56,7 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Preferences.readPreferences(this, "token", "");
+               // Preferences.readPreferences(this, "token", "");
                 Intent main_activity = new Intent(SplashScreen.this, Login.class);
                 startActivity(main_activity);
 

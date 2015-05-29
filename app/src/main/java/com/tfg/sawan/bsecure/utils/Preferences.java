@@ -3,6 +3,7 @@ package com.tfg.sawan.bsecure.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 /**
@@ -31,15 +32,18 @@ import android.preference.PreferenceManager;
  * http://www.gnu.org/licenses/.
  */
 public class Preferences {
+
+    protected final static String PREFERENCES = "BsecurePreferences";
+
     public static void savePreferences(Activity activity, String key, String value){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key, value);
         editor.commit();
     }
 
     public static String readPreferences(Activity activity, String key, String defaultValue){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
     }
 }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.tfg.sawan.bsecure.MainActivity;
 import com.tfg.sawan.bsecure.R;
+import com.tfg.sawan.bsecure.utils.Preferences;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -92,7 +93,7 @@ public class Login extends Activity {
         HttpClient client = new DefaultHttpClient();
 
         // Create Post object
-        HttpPost post = new HttpPost("http://10.0.3.2:3000/login-android");
+        HttpPost post = new HttpPost("http://192.168.1.108:3000/login-android");
 
         // Add post parameters
         ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
@@ -117,20 +118,26 @@ public class Login extends Activity {
 
         // Get token
         String token = null;
+        String expiry_date = null;
         if (response.getStatusLine().getStatusCode() == 200) {
             HttpEntity entity = response.getEntity();
             JSONObject json = null;
             try {
                 json = new JSONObject(EntityUtils.toString(entity));
                 token = json.getString("token");
+                expiry_date = json.getString("exp");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
+        Preferences.savePreferences(this, "token", token);
+        Preferences.savePreferences(this, "expiry", expiry_date);
+
         // Switch to main activity
         Intent main_activity = new Intent(Login.this, MainActivity.class);
         main_activity.putExtra("token", token);
+        main_activity.putExtra("expiry", expiry_date);
         startActivity(main_activity);
     }
 }

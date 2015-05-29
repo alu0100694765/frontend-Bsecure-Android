@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.tfg.sawan.bsecure.utils.Preferences;
+
 /**
  * File name:	com.tfg.sawan.bsecure
  * Version:		1.0
@@ -47,7 +49,7 @@ public class MainActivity extends Activity {
         // get Extras (Token)
         Bundle extras =  getIntent().getExtras();
         if (extras != null) {
-            token = extras.getString("token");
+            token = Preferences.readPreferences(this, "expiry", "Nothing found");
             Log.d("Http Post Response:", token);
         }
 
