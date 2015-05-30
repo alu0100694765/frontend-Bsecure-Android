@@ -26,6 +26,6 @@
             android:textColor="@color/white"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/scanButton"
-            android:layout_alignStart="@+id/scanButton"
-            android:layout_alignEnd="@+id/scanButton" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>

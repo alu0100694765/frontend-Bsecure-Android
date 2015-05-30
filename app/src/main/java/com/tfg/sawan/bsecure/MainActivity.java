@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +82,15 @@ public class MainActivity extends Activity {
         }
 
         token = Token.getToken();
+
+        ImageButton scan_button = (ImageButton) findViewById(R.id.scanButton);
+
+        RotateAnimation scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scan_animation.setInterpolator(new LinearInterpolator());
+        scan_animation.setRepeatCount(Animation.INFINITE);
+        scan_animation.setDuration(4000);
+
+        scan_button.startAnimation(scan_animation);
     }
 
 
