@@ -32,10 +32,21 @@ import android.preference.PreferenceManager;
  * http://www.gnu.org/licenses/.
  */
 public class Preferences {
-
+    /**
+     *  The Constant PREFERENCES
+     */
     protected final static String PREFERENCES = "BsecurePreferences";
+
+    /**
+     *  The Constant Message Not Found
+     */
     public final static String NOT_FOUND_MESSAGE = "Nothing found";
 
+    /**
+     * @param activity
+     * @param key
+     * @param value
+     */
     public static void savePreferences(Activity activity, String key, String value){
         SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -43,11 +54,20 @@ public class Preferences {
         editor.commit();
     }
 
+    /**
+     * @param activity
+     * @param key
+     * @param defaultValue
+     * @return String
+     */
     public static String readPreferences(Activity activity, String key, String defaultValue){
         SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
     }
 
+    /**
+     * @param activity
+     */
     public static void removeAllPreferences(Activity activity) {
         SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

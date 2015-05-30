@@ -47,10 +47,12 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
+
         // Load Token from SharedPreferences
         Token.loadToken(this);
         Log.d("Token", Token.getToken());
         Log.d("Expiry", Token.getExpiry_date());
+
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -61,6 +63,8 @@ public class SplashScreen extends Activity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent main_activity;
+
+                // Check if the token exists and its not expired
                 if (Token.tokenExists() && !Token.isExpired()) {
                     main_activity = new Intent(SplashScreen.this, MainActivity.class);
                 } else {

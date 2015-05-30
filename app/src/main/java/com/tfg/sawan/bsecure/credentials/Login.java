@@ -131,9 +131,11 @@ public class Login extends Activity {
             }
         }
 
+        // Add to sharedPreferences
         Preferences.savePreferences(this, "token", token);
         Preferences.savePreferences(this, "expiry", expiry_date);
 
+        // Set the Token
         Token.setToken(token);
         Token.setExpiry_date(expiry_date);
 
