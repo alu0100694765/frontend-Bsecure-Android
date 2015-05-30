@@ -4,6 +4,7 @@ package com.tfg.sawan.bsecure;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -148,6 +149,9 @@ public class MainActivity extends Activity {
     }
 
     protected  void onLoading() {
-
+        Log.d("Entraaaaa", "Entraaaaaa");
+        scan_button.setBackgroundResource(R.drawable.scan_animation_list);
+        AnimationDrawable scan_animation =  (AnimationDrawable) scan_button.getBackground();
+        scan_animation.start();
     }
 }
