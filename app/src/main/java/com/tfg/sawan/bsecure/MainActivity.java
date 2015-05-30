@@ -3,9 +3,11 @@ package com.tfg.sawan.bsecure;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tfg.sawan.bsecure.credentials.Token;
 import com.tfg.sawan.bsecure.utils.Preferences;
@@ -42,6 +44,13 @@ public class MainActivity extends Activity {
     /** Token */
     private String token;
 
+    /** Exit the app **/
+    private Boolean exit = false;
+
+    protected final static int DELAY_TIME_EXIT = 3 * 1000;
+
+    protected final static String TOAST_MESSAGE = "Press Back again to Exit.";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,5 +60,25 @@ public class MainActivity extends Activity {
 
         TextView test = (TextView) findViewById(R.id.token);
         test.setText(token);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, TOAST_MESSAGE,
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, DELAY_TIME_EXIT);
+
+        }
+
     }
 }
