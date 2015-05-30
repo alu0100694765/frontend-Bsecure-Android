@@ -46,4 +46,11 @@ public class Preferences {
         SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
     }
+
+    public static void removeAllPreferences(Activity activity) {
+        SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
 }
