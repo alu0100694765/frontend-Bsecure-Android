@@ -125,7 +125,7 @@ public class Login extends Activity {
             try {
                 json = new JSONObject(EntityUtils.toString(entity));
                 token = json.getString("token");
-                expiry_date = json.getString("exp");
+                expiry_date = json.getString("exp").replace("/", "-");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -134,10 +134,11 @@ public class Login extends Activity {
         Preferences.savePreferences(this, "token", token);
         Preferences.savePreferences(this, "expiry", expiry_date);
 
+        Token.setToken(token);
+        Token.setExpiry_date(expiry_date);
+
         // Switch to main activity
         Intent main_activity = new Intent(Login.this, MainActivity.class);
-        main_activity.putExtra("token", token);
-        main_activity.putExtra("expiry", expiry_date);
         startActivity(main_activity);
     }
 }

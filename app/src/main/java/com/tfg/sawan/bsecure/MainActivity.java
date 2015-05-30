@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.tfg.sawan.bsecure.credentials.Token;
 import com.tfg.sawan.bsecure.utils.Preferences;
 
 /**
@@ -46,12 +47,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get Extras (Token)
-        Bundle extras =  getIntent().getExtras();
-        if (extras != null) {
-            token = Preferences.readPreferences(this, "token", Preferences.NOT_FOUND_MESSAGE);
-            Log.d("Http Post Response:", token);
-        }
+        token = Token.getToken();
 
         TextView test = (TextView) findViewById(R.id.token);
         test.setText(token);

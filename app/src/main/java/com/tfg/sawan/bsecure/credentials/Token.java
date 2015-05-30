@@ -1,5 +1,6 @@
 package com.tfg.sawan.bsecure.credentials;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.tfg.sawan.bsecure.utils.Preferences;
@@ -37,7 +38,7 @@ public class Token {
         Date expiry_date_token = new Date();
         Date actual_date =  new Date();
 
-        Log.d("Date", Token.expiry_date);
+
 
         try {
             expiry_date_token = date_format.parse(Token.expiry_date);
@@ -45,8 +46,8 @@ public class Token {
             e.printStackTrace();
         }
 
-        // If expiry date is before actual date it means it has not expired
-        if (expiry_date_token.before(actual_date)) {
+        // If actual date is before expiry date it means it has not expired
+        if (actual_date.before(expiry_date_token)) {
             return false;
         } else {
             return true;
@@ -59,5 +60,10 @@ public class Token {
         } else {
             return false;
         }
+    }
+
+    public static void loadToken(Activity activity) {
+        Token.setToken(Preferences.readPreferences(activity, "token", Preferences.NOT_FOUND_MESSAGE));
+        Token.setExpiry_date(Preferences.readPreferences(activity, "expiry", Preferences.NOT_FOUND_MESSAGE));
     }
 }
