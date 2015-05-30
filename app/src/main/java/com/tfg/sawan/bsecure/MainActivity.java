@@ -2,6 +2,8 @@ package com.tfg.sawan.bsecure;
 
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -51,15 +53,30 @@ public class MainActivity extends Activity {
 
     protected final static String TOAST_MESSAGE = "Press Back again to Exit.";
 
+    protected BluetoothAdapter bluetooth_adapter;
+
+    protected final static int REQUEST_ENABLE_BT   = 1;
+
+    protected final static String BLUETOOTH_ENABLE_MESSAGE  = "Bluetooth enabled successfully";
+
+    protected final static String BLUETOOTH_NOT_SUPPORTED  = "Bluetooth not supported";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bluetooth_adapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (isBluetoothSupported()) {
+            if (!bluetooth_adapter.isEnabled()) {
+                enableBluetooth();
+            }
+        } else {
+            Toast.makeText(this, BLUETOOTH_NOT_SUPPORTED, Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         token = Token.getToken();
-
-        TextView test = (TextView) findViewById(R.id.token);
-        test.setText(token);
     }
 
 
@@ -80,5 +97,29 @@ public class MainActivity extends Activity {
 
         }
 
+    }
+
+    protected boolean isBluetoothSupported() {
+        if (bluetooth_adapter ==  null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected void enableBluetooth() {
+        Intent request_bluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(request_bluetooth, REQUEST_ENABLE_BT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, BLUETOOTH_ENABLE_MESSAGE, Toast.LENGTH_SHORT).show();
+            } else {
+                enableBluetooth();
+            }
+        }
     }
 }
