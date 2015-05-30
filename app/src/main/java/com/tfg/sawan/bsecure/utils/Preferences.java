@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 public class Preferences {
 
     protected final static String PREFERENCES = "BsecurePreferences";
+    public final static String NOT_FOUND_MESSAGE = "Nothing found";
 
     public static void savePreferences(Activity activity, String key, String value){
         SharedPreferences sp = activity.getSharedPreferences(PREFERENCES, Activity.MODE_PRIVATE);

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.tfg.sawan.bsecure.MainActivity;
 import com.tfg.sawan.bsecure.R;
 import com.tfg.sawan.bsecure.credentials.Login;
+import com.tfg.sawan.bsecure.credentials.Token;
 import com.tfg.sawan.bsecure.utils.Preferences;
 
 /**
@@ -57,7 +58,11 @@ public class SplashScreen extends Activity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent main_activity;
-                if ()
+                if (!Token.isExpired()) {
+                    main_activity = new Intent(SplashScreen.this, MainActivity.class);
+                } else {
+                    main_activity = new Intent(SplashScreen.this, Login.class);
+                }
                 startActivity(main_activity);
 
                 // close the activity

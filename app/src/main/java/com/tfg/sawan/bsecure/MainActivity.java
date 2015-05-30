@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
         // get Extras (Token)
         Bundle extras =  getIntent().getExtras();
         if (extras != null) {
-            token = Preferences.readPreferences(this, "expiry", "Nothing found");
+            token = Preferences.readPreferences(this, "token", Preferences.NOT_FOUND_MESSAGE);
             Log.d("Http Post Response:", token);
         }
 
