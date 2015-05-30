@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -54,6 +55,8 @@ public class MainActivity extends Activity {
     /** Exit the app **/
     private Boolean exit = false;
 
+    protected ImageButton scan_button;
+
     protected final static int DELAY_TIME_EXIT = 3 * 1000;
 
     protected final static String TOAST_MESSAGE = "Press Back again to Exit.";
@@ -83,7 +86,7 @@ public class MainActivity extends Activity {
 
         token = Token.getToken();
 
-        ImageButton scan_button = (ImageButton) findViewById(R.id.scanButton);
+        scan_button = (ImageButton) findViewById(R.id.scanButton);
 
         RotateAnimation scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scan_animation.setInterpolator(new LinearInterpolator());
@@ -91,6 +94,13 @@ public class MainActivity extends Activity {
         scan_animation.setDuration(4000);
 
         scan_button.startAnimation(scan_animation);
+
+        scan_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLoading();
+            }
+        });
     }
 
 
@@ -135,5 +145,9 @@ public class MainActivity extends Activity {
                 enableBluetooth();
             }
         }
+    }
+
+    protected  void onLoading() {
+
     }
 }
