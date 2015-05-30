@@ -1,5 +1,7 @@
 package com.tfg.sawan.bsecure.credentials;
 
+import com.tfg.sawan.bsecure.utils.Preferences;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
