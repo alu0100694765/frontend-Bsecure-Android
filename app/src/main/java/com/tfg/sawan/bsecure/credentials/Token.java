@@ -31,7 +31,7 @@ public class Token {
     public static boolean isExpired() {
         SimpleDateFormat date_format = new SimpleDateFormat("MM/dd/yyyy");
         Date expiry_date_token = new Date();
-        Calendar actual_date = Calendar.getInstance();
+        Date actual_date =  new Date();
 
         try {
             expiry_date_token = date_format.parse(Token.expiry_date);
@@ -39,10 +39,11 @@ public class Token {
             e.printStackTrace();
         }
 
-        if (!expiry_date_token.before(actual_date)) {
-
+        // If expiry date is before actual date it means it has not expired
+        if (expiry_date_token.before(actual_date)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 }
