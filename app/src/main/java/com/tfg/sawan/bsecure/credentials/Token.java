@@ -18,6 +18,15 @@ import java.util.Date;
 public class Token {
     private static String token;
     private static String expiry_date;
+    private static String user_name;
+
+    public static String getUser_name() {
+        return user_name;
+    }
+
+    public static void setUser_name(String user_name) {
+        Token.user_name = user_name;
+    }
 
     /**
      * @return token
@@ -86,5 +95,6 @@ public class Token {
     public static void loadToken(Activity activity) {
         Token.setToken(Preferences.readPreferences(activity, "token", Preferences.NOT_FOUND_MESSAGE));
         Token.setExpiry_date(Preferences.readPreferences(activity, "expiry", Preferences.NOT_FOUND_MESSAGE));
+        Token.setUser_name(Preferences.readPreferences(activity, "name", Preferences.NOT_FOUND_MESSAGE));
     }
 }

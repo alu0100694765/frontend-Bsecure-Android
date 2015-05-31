@@ -119,6 +119,7 @@ public class Login extends Activity {
         // Get token
         String token = null;
         String expiry_date = null;
+        String name = null;
         if (response.getStatusLine().getStatusCode() == 200) {
             HttpEntity entity = response.getEntity();
             JSONObject json = null;
@@ -126,6 +127,7 @@ public class Login extends Activity {
                 json = new JSONObject(EntityUtils.toString(entity));
                 token = json.getString("token");
                 expiry_date = json.getString("exp").replace("/", "-");
+                name = json.getString("name");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -134,10 +136,12 @@ public class Login extends Activity {
         // Add to sharedPreferences
         Preferences.savePreferences(this, "token", token);
         Preferences.savePreferences(this, "expiry", expiry_date);
+        Preferences.savePreferences(this, "name", name);
 
         // Set the Token
         Token.setToken(token);
         Token.setExpiry_date(expiry_date);
+        Token.setUser_name(name);
 
         // Switch to main activity
         Intent main_activity = new Intent(Login.this, MainActivity.class);
