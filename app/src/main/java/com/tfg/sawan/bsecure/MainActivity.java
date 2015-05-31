@@ -58,6 +58,8 @@ public class MainActivity extends Activity {
 
     protected ImageButton scan_button;
 
+    protected TextView user_name_textView;
+
     protected final static int DELAY_TIME_EXIT = 3 * 1000;
 
     protected final static String TOAST_MESSAGE = "Press Back again to Exit.";
@@ -72,10 +74,15 @@ public class MainActivity extends Activity {
 
     protected final static String BLUETOOTH_NOT_SUPPORTED  = "Bluetooth not supported";
 
+    protected final static String WELCOME_MESSAGE = "Welcome ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loadCredentials();
+
         bluetooth_adapter = BluetoothAdapter.getDefaultAdapter();
 
         if (isBluetoothSupported()) {
@@ -124,6 +131,11 @@ public class MainActivity extends Activity {
 
         }
 
+    }
+
+    protected void loadCredentials () {
+        user_name_textView = (TextView) findViewById(R.id.user_name_text);
+        user_name_textView.setText(WELCOME_MESSAGE + Token.getUser_name());
     }
 
     protected boolean isBluetoothSupported() {
