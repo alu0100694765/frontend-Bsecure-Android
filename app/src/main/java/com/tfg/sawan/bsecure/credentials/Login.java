@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tfg.sawan.bsecure.MainActivity;
 import com.tfg.sawan.bsecure.R;
@@ -50,6 +51,8 @@ public class Login extends Activity {
      * Password
      */
     protected String password;
+
+    protected static final String INVALID_CREDENTIALS_MESSAGE = "Invalid credentials";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,11 @@ public class Login extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            Toast.makeText(this, INVALID_CREDENTIALS_MESSAGE, Toast.LENGTH_SHORT).show();
+            Intent restart = getIntent();
+            finish();
+            startActivity(restart);
         }
 
         // Add to sharedPreferences
