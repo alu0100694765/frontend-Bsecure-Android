@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -113,7 +111,7 @@ public class MainActivity extends Activity {
         scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onLoading();
+                onScanning();
             }
         });
         logout_button.setOnClickListener(new View.OnClickListener() {
@@ -182,11 +180,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    protected  void onLoading() {
+    protected  void onScanning() {
         TextView text_tap_me = (TextView) findViewById(R.id.tapMe);
         text_tap_me.setVisibility(View.INVISIBLE);
 
         user_name_textView.setVisibility(View.INVISIBLE);
+
+        logout_button.setVisibility(View.INVISIBLE);
 
         scan_animation.cancel();
 
