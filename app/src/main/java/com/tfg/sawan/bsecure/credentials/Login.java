@@ -41,7 +41,9 @@ public class Login extends Activity {
     /**
      * Login button
      */
-    private Button login_button;
+    protected Button login_button;
+
+    protected Button signup_button;
 
     /**
      * Username
@@ -62,6 +64,7 @@ public class Login extends Activity {
 
         // Initiate the button
         login_button = (Button) findViewById(R.id.btnLogin);
+        signup_button = (Button) findViewById(R.id.btnSingUp);
 
         // Add click listener
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +80,12 @@ public class Login extends Activity {
 
         );
 
+        signup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSignUp();
+            }
+        });
     }
 
     protected void onSignUp() {
