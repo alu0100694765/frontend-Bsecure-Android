@@ -2,6 +2,7 @@ package com.tfg.sawan.bsecure.credentials;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tfg.sawan.bsecure.MainActivity;
 import com.tfg.sawan.bsecure.R;
@@ -51,6 +53,8 @@ public class Login extends Activity {
      */
     protected String password;
 
+    protected static final String INVALID_CREDENTIALS_MESSAGE = "Invalid credentials";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +79,15 @@ public class Login extends Activity {
 
     }
 
+    protected void onSignUp() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.108:3000/signup"));
+        startActivity(browserIntent);
+    }
 
     /**
      * Executes on click the login button
      */
-    public void onLogin() throws IOException {
+    protected void onLogin() throws IOException {
         // Get username and password from editTexts
         EditText user_name_editText = (EditText) findViewById(R.id.user_name);
         username = user_name_editText.getText().toString();
@@ -131,6 +139,11 @@ public class Login extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            Toast.makeText(this, INVALID_CREDENTIALS_MESSAGE, Toast.LENGTH_SHORT).show();
+            Intent restart = getIntent();
+            finish();
+            startActivity(restart);
         }
 
         // Add to sharedPreferences
