@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tfg.sawan.bsecure.credentials.Login;
 import com.tfg.sawan.bsecure.credentials.Token;
 import com.tfg.sawan.bsecure.utils.Preferences;
 
@@ -58,6 +60,8 @@ public class MainActivity extends Activity {
 
     protected ImageButton scan_button;
 
+    protected Button logout_button;
+
     protected TextView user_name_textView;
 
     protected final static int DELAY_TIME_EXIT = 3 * 1000;
@@ -97,6 +101,7 @@ public class MainActivity extends Activity {
         token = Token.getToken();
 
         scan_button = (ImageButton) findViewById(R.id.scanButton);
+        logout_button = (Button) findViewById(R.id.btnLogout);
 
         scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scan_animation.setInterpolator(new LinearInterpolator());
@@ -111,6 +116,21 @@ public class MainActivity extends Activity {
                 onLoading();
             }
         });
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+    protected void logout() {
+        Preferences.removeAllPreferences(this);
+
+        Intent login_activity = new Intent(MainActivity.this, Login.class);
+        startActivity(login_activity);
+
+        finish();
     }
 
 
@@ -165,6 +185,8 @@ public class MainActivity extends Activity {
     protected  void onLoading() {
         TextView text_tap_me = (TextView) findViewById(R.id.tapMe);
         text_tap_me.setVisibility(View.INVISIBLE);
+
+        user_name_textView.setVisibility(View.INVISIBLE);
 
         scan_animation.cancel();
 
