@@ -28,4 +28,12 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scanning_image"
+            android:layout_toEndOf="@+id/scanButton"
+            android:layout_alignTop="@+id/scanButton"
+            android:layout_alignStart="@+id/scanButton" />
+
     </RelativeLayout>

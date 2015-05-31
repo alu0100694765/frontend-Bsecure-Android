@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
 
     protected BluetoothAdapter bluetooth_adapter;
 
+    protected  RotateAnimation scan_animation;
+
     protected final static int REQUEST_ENABLE_BT   = 1;
 
     protected final static String BLUETOOTH_ENABLE_MESSAGE  = "Bluetooth enabled successfully";
@@ -89,7 +91,7 @@ public class MainActivity extends Activity {
 
         scan_button = (ImageButton) findViewById(R.id.scanButton);
 
-        RotateAnimation scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scan_animation.setInterpolator(new LinearInterpolator());
         scan_animation.setRepeatCount(Animation.INFINITE);
         scan_animation.setDuration(4000);
@@ -149,9 +151,14 @@ public class MainActivity extends Activity {
     }
 
     protected  void onLoading() {
-        Log.d("Entraaaaa", "Entraaaaaa");
-        scan_button.setBackgroundResource(R.drawable.scan_animation_list);
-        AnimationDrawable scan_animation =  (AnimationDrawable) scan_button.getBackground();
+        scan_animation.cancel();
+
+        scan_button.setVisibility(View.INVISIBLE);
+
+        ImageView scanning_image = (ImageView) findViewById(R.id.scanning_image);
+
+        scanning_image.setBackgroundResource(R.drawable.scan_animation_list);
+        AnimationDrawable scan_animation =  (AnimationDrawable) scanning_image.getBackground();
         scan_animation.start();
     }
 }
