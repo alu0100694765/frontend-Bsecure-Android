@@ -146,5 +146,8 @@ public class Login extends Activity {
         // Switch to main activity
         Intent main_activity = new Intent(Login.this, MainActivity.class);
         startActivity(main_activity);
+
+        // Finish the activity
+        finish();
     }
 }
