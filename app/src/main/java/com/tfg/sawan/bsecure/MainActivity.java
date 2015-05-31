@@ -151,6 +151,9 @@ public class MainActivity extends Activity {
     }
 
     protected  void onLoading() {
+        TextView text_tap_me = (TextView) findViewById(R.id.tapMe);
+        text_tap_me.setVisibility(View.INVISIBLE);
+
         scan_animation.cancel();
 
         scan_button.setVisibility(View.INVISIBLE);
