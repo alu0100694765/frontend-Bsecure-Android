@@ -2,6 +2,7 @@ package com.tfg.sawan.bsecure.credentials;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -78,11 +79,15 @@ public class Login extends Activity {
 
     }
 
+    protected void onSignUp() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.108:3000/signup"));
+        startActivity(browserIntent);
+    }
 
     /**
      * Executes on click the login button
      */
-    public void onLogin() throws IOException {
+    protected void onLogin() throws IOException {
         // Get username and password from editTexts
         EditText user_name_editText = (EditText) findViewById(R.id.user_name);
         username = user_name_editText.getText().toString();
