@@ -162,6 +162,7 @@ public class MainActivity extends Activity {
 
         scanning_image.setBackgroundResource(R.drawable.scan_animation_list);
         AnimationDrawable scan_animation =  (AnimationDrawable) scanning_image.getBackground();
+
         scan_animation.start();
     }
 }

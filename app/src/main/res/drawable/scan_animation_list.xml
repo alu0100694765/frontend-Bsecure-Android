@@ -3,14 +3,14 @@
     android:oneshot="false" >
     <item
         android:drawable="@drawable/frame_0"
-        android:duration="100"/>
+        android:duration="400"/>
     <item
         android:drawable="@drawable/frame_1"
-        android:duration="100"/>
+        android:duration="400"/>
     <item
         android:drawable="@drawable/frame_2"
-        android:duration="100"/>
+        android:duration="400"/>
     <item
         android:drawable="@drawable/frame_3"
-        android:duration="100"/>
+        android:duration="400"/>
 </animation-list>
