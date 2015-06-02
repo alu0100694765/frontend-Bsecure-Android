@@ -89,7 +89,7 @@ public class Login extends Activity {
     }
 
     protected void onSignUp() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.108:3000/signup"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://bsecure-sawankapai.rhcloud.com/signup"));
         startActivity(browserIntent);
     }
 
@@ -110,7 +110,7 @@ public class Login extends Activity {
         HttpClient client = new DefaultHttpClient();
 
         // Create Post object
-        HttpPost post = new HttpPost("http://192.168.1.108:3000/login-android");
+        HttpPost post = new HttpPost("http://bsecure-sawankapai.rhcloud.com/login-android");
 
         // Add post parameters
         ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();

@@ -78,6 +78,8 @@ public class MainActivity extends Activity {
 
     protected final static String WELCOME_MESSAGE = "Welcome ";
 
+    protected final static int SCAN_PERIOD = 10000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

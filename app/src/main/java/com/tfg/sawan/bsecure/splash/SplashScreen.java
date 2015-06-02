@@ -47,7 +47,7 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
-        
+
         // Load Token from SharedPreferences
         Token.loadToken(this);
         Log.d("Token", Token.getToken());
