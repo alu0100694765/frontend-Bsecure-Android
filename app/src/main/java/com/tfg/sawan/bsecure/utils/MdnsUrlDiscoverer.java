@@ -22,7 +22,7 @@ import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 import android.webkit.URLUtil;
 
-class MdnsUrlDiscoverer {
+public class MdnsUrlDiscoverer {
 
   private static final String TAG = "MdnsUrlDiscoverer";
   NsdManager.DiscoveryListener mDiscoveryListener = new NsdManager.DiscoveryListener() {

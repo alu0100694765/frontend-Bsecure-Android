@@ -38,11 +38,21 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.RemoteViews;
 
+import com.tfg.sawan.bsecure.MainActivity;
+import com.tfg.sawan.bsecure.R;
+import com.tfg.sawan.bsecure.beacon.UriBeacon;
+import com.tfg.sawan.bsecure.scan.compat.BluetoothLeScannerCompat;
+import com.tfg.sawan.bsecure.scan.compat.BluetoothLeScannerCompatProvider;
 import com.tfg.sawan.bsecure.scan.compat.ScanCallback;
+import com.tfg.sawan.bsecure.scan.compat.ScanFilter;
 import com.tfg.sawan.bsecure.scan.compat.ScanResult;
 import com.tfg.sawan.bsecure.scan.compat.ScanSettings;
 import com.tfg.sawan.bsecure.scan.util.RegionResolver;
+import com.tfg.sawan.bsecure.utils.MdnsUrlDiscoverer;
+import com.tfg.sawan.bsecure.utils.MetadataComparator;
+import com.tfg.sawan.bsecure.utils.PwsClient;
 import com.tfg.sawan.bsecure.utils.SsdpUrlDiscoverer;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -322,25 +332,6 @@ public class UriBeaconDiscoveryService extends Service
 
     mSortedDevices = getSortedBeaconsWithMetadata();
 
-    // If no beacons have been found
-    if (mSortedDevices.size() == 0) {
-      // Remove all existing notifications
-      mNotificationManager.cancelAll();
-    } else if (mSortedDevices.size() == 1) {
-      updateNearbyBeaconNotification(true, mDeviceAddressToUrl.get(mSortedDevices.get(0)),
-          NEAREST_BEACON_NOTIFICATION_ID);
-    } else {
-      // Create a summary notification for both beacon notifications.
-      // Do this first so that we don't first show the individual notifications
-      updateSummaryNotification();
-      // Create or update a notification for second beacon
-      updateNearbyBeaconNotification(false, mDeviceAddressToUrl.get(mSortedDevices.get(1)),
-          SECOND_NEAREST_BEACON_NOTIFICATION_ID);
-      // Create or update a notification for first beacon. Needs to be added last to show up top
-      updateNearbyBeaconNotification(false, mDeviceAddressToUrl.get(mSortedDevices.get(0)),
-          NEAREST_BEACON_NOTIFICATION_ID);
-
-    }
   }
 
   private ArrayList<String> getSortedBeaconsWithMetadata() {
@@ -354,142 +345,6 @@ public class UriBeaconDiscoveryService extends Service
     return unSorted;
   }
 
-  /**
-   * Create or update a notification with the given id
-   * for the beacon with the given address
-   */
-  private void updateNearbyBeaconNotification(boolean single, String url, int notificationId) {
-    PwsClient.UrlMetadata urlMetadata = mUrlToUrlMetadata.get(url);
-    if (urlMetadata == null) {
-      return;
-    }
-
-    // Create an intent that will open the browser to the beacon's url
-    // if the user taps on the notification
-    PendingIntent pendingIntent = createNavigateToUrlPendingIntent(url);
-
-    String title = urlMetadata.title;
-    String description = urlMetadata.description;
-    Bitmap icon = urlMetadata.icon;
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-    builder.setSmallIcon(R.drawable.ic_notification)
-        .setLargeIcon(icon)
-        .setContentTitle(title)
-        .setContentText(description)
-        .setPriority(NOTIFICATION_PRIORITY)
-        .setContentIntent(pendingIntent);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      if (mPublicUrls.contains(url)) {
-        builder.setVisibility(NOTIFICATION_VISIBILITY);
-      }
-    }
-    // For some reason if there is only one notification and you call setGroup
-    // the notification doesn't show up on the N7 running kit kat
-    if (!single) {
-      builder = builder.setGroup(NOTIFICATION_GROUP_KEY);
-    }
-    Notification notification = builder.build();
-
-    mNotificationManager.notify(notificationId, notification);
-  }
-
-  /**
-   * Create or update the a single notification that is a collapsed version
-   * of the top two beacon notifications
-   */
-  private void updateSummaryNotification() {
-    int numNearbyBeacons = mSortedDevices.size();
-    String contentTitle = String.valueOf(numNearbyBeacons);
-    Resources resources = getResources();
-    contentTitle += " " + resources.getQuantityString(R.plurals.numFoundBeacons, numNearbyBeacons, numNearbyBeacons);
-    String contentText = getString(R.string.summary_notification_pull_down);
-    PendingIntent pendingIntent = createReturnToAppPendingIntent();
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-    builder.setSmallIcon(R.drawable.ic_notification)
-        .setContentTitle(contentTitle)
-        .setContentText(contentText)
-        .setSmallIcon(R.drawable.ic_notification)
-        .setGroup(NOTIFICATION_GROUP_KEY)
-        .setGroupSummary(true)
-        .setPriority(NOTIFICATION_PRIORITY)
-        .setContentIntent(pendingIntent);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      builder.setVisibility(NOTIFICATION_VISIBILITY);
-    }
-    Notification notification = builder.build();
-
-    // Create the big view for the notification (viewed by pulling down)
-    RemoteViews remoteViews = updateSummaryNotificationRemoteViews();
-    notification.bigContentView = remoteViews;
-
-    mNotificationManager.notify(SUMMARY_NOTIFICATION_ID, notification);
-  }
-
-  /**
-   * Create the big view for the summary notification
-   */
-  private RemoteViews updateSummaryNotificationRemoteViews() {
-    RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_big_view);
-
-    // Fill in the data for the top two beacon views
-    updateSummaryNotificationRemoteViewsFirstBeacon(mDeviceAddressToUrl.get(mSortedDevices.get(0)), remoteViews);
-    updateSummaryNotificationRemoteViewsSecondBeacon(mDeviceAddressToUrl.get(mSortedDevices.get(1)), remoteViews);
-
-    // Create a pending intent that will open the physical web app
-    // TODO: Use a clickListener on the VIEW MORE button to do this
-    PendingIntent pendingIntent = createReturnToAppPendingIntent();
-    remoteViews.setOnClickPendingIntent(R.id.otherBeaconsLayout, pendingIntent);
-
-    return remoteViews;
-  }
-
-  private void updateSummaryNotificationRemoteViewsFirstBeacon(String url, RemoteViews remoteViews) {
-    PwsClient.UrlMetadata urlMetadata = mUrlToUrlMetadata.get(url);
-    if (urlMetadata != null) {
-      remoteViews.setImageViewBitmap(R.id.icon_firstBeacon, urlMetadata.icon);
-      remoteViews.setTextViewText(R.id.title_firstBeacon, urlMetadata.title);
-      remoteViews.setTextViewText(R.id.url_firstBeacon, urlMetadata.displayUrl);
-      remoteViews.setTextViewText(R.id.description_firstBeacon, urlMetadata.description);
-      // Recolor notifications to have light text for non-Lollipop devices
-      if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)) {
-        remoteViews.setTextColor(R.id.title_firstBeacon, NON_LOLLIPOP_NOTIFICATION_TITLE_COLOR);
-        remoteViews.setTextColor(R.id.url_firstBeacon, NON_LOLLIPOP_NOTIFICATION_URL_COLOR);
-        remoteViews.setTextColor(R.id.description_firstBeacon, NON_LOLLIPOP_NOTIFICATION_SNIPPET_COLOR);
-      }
-
-      // Create an intent that will open the browser to the beacon's url
-      // if the user taps the notification
-      PendingIntent pendingIntent = createNavigateToUrlPendingIntent(url);
-      remoteViews.setOnClickPendingIntent(R.id.first_beacon_main_layout, pendingIntent);
-      remoteViews.setViewVisibility(R.id.firstBeaconLayout, View.VISIBLE);
-    } else {
-      remoteViews.setViewVisibility(R.id.firstBeaconLayout, View.GONE);
-    }
-  }
-
-  private void updateSummaryNotificationRemoteViewsSecondBeacon(String url, RemoteViews remoteViews) {
-    PwsClient.UrlMetadata urlMetadata = mUrlToUrlMetadata.get(url);
-    if (urlMetadata != null) {
-      remoteViews.setImageViewBitmap(R.id.icon_secondBeacon, urlMetadata.icon);
-      remoteViews.setTextViewText(R.id.title_secondBeacon, urlMetadata.title);
-      remoteViews.setTextViewText(R.id.url_secondBeacon, urlMetadata.displayUrl);
-      remoteViews.setTextViewText(R.id.description_secondBeacon, urlMetadata.description);
-      // Recolor notifications to have light text for non-Lollipop devices
-      if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)) {
-        remoteViews.setTextColor(R.id.title_secondBeacon, NON_LOLLIPOP_NOTIFICATION_TITLE_COLOR);
-        remoteViews.setTextColor(R.id.url_secondBeacon, NON_LOLLIPOP_NOTIFICATION_URL_COLOR);
-        remoteViews.setTextColor(R.id.description_secondBeacon, NON_LOLLIPOP_NOTIFICATION_SNIPPET_COLOR);
-      }
-
-      // Create an intent that will open the browser to the beacon's url
-      // if the user taps the notification
-      PendingIntent pendingIntent = createNavigateToUrlPendingIntent(url);
-      remoteViews.setOnClickPendingIntent(R.id.second_beacon_main_layout, pendingIntent);
-      remoteViews.setViewVisibility(R.id.secondBeaconLayout, View.VISIBLE);
-    } else {
-      remoteViews.setViewVisibility(R.id.secondBeaconLayout, View.GONE);
-    }
-  }
 
   private PendingIntent createReturnToAppPendingIntent() {
     Intent intent = new Intent(this, MainActivity.class);

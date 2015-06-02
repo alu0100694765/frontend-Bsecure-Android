@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.tfg.sawan.bsecure.client;
+package com.tfg.sawan.bsecure.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -44,7 +42,7 @@ import java.util.Date;
  * For the largest use, metadata requests, the physical web service
  * scrapes the page at the given url for its metadata.
  */
-class PwsClient {
+public class PwsClient {
   private static final String TAG = "PwsClient";
   private static final String PROD_URL = "https://url-caster.appspot.com";
   private static final String DEV_URL = "https://url-caster-dev.appspot.com";
