@@ -1,4 +1,4 @@
-<org.physical_web.physicalweb.SwipeRefreshWidget
+<com.tfg.sawan.bsecure.utils.SwipeRefreshWidget
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +6,7 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#ffffffff">
+                    android:background="@color/solid_blue">
 
         <ListView
             android:id="@android:id/list"
@@ -18,16 +18,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_nearby_beacons_list_text"
             android:textSize="16sp"
             android:textColor="#5A5A5A"
             android:drawableTop="@drawable/scanning_animation"
             android:drawablePadding="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="260dp"
+            android:id="@id/android:empty"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:id="@id/android:empty"/>
+            android:gravity="center" />
 
     </RelativeLayout>
 
-</org.physical_web.physicalweb.SwipeRefreshWidget>
+</com.tfg.sawan.bsecure.utils.SwipeRefreshWidget>
