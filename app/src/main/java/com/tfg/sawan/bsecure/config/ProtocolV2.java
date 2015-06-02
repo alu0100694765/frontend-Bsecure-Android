@@ -22,9 +22,9 @@ import android.bluetooth.BluetoothProfile;
 import android.os.ParcelUuid;
 import android.util.Log;
 
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon;
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon.Builder;
-import com.naddiaz.tfg.physicalweblibrary.config.UriBeaconConfig.UriBeaconCallback;
+
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon;
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon.Builder;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -150,7 +150,7 @@ public class ProtocolV2 extends BaseProtocol {
   @Override
   public void onServicesDiscovered(BluetoothGatt gatt, int status) {
     Log.d(TAG, "onServicesDiscovered request queue");
-    mBuilder = new Builder();
+    mBuilder = new ConfigUriBeacon.Builder();
     mService.setService(CONFIG_SERVICE_UUID.getUuid());
     mService.readCharacteristic(LOCK_STATE);
     mService.readCharacteristic(DATA);

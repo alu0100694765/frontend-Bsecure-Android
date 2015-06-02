@@ -23,10 +23,8 @@ import android.os.ParcelUuid;
 import android.util.Log;
 
 
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon;
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon.Builder;
-import com.naddiaz.tfg.physicalweblibrary.beacon.UriBeacon;
-import com.naddiaz.tfg.physicalweblibrary.config.UriBeaconConfig.UriBeaconCallback;
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon;
+import com.tfg.sawan.bsecure.beacon.UriBeacon;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -43,14 +41,14 @@ public class ProtocolV1 extends BaseProtocol {
   private static final int DATA_LENGTH_MAX = 20;
   private static final byte TX_POWER_LEVEL_DEFAULT = -22;
   private final GattService mService;
-  private final UriBeaconCallback mUriBeaconCallback;
+  private final UriBeaconConfig.UriBeaconCallback mUriBeaconCallback;
   private Integer mDataLength;
   private byte[] mData;
   private byte[] mDataWrite;
   private ConfigUriBeacon mConfigUriBeacon;
 
   public ProtocolV1(GattService serviceConnection,
-      UriBeaconCallback uriBeaconCallback) {
+      UriBeaconConfig.UriBeaconCallback uriBeaconCallback) {
     mService = serviceConnection;
     mUriBeaconCallback = uriBeaconCallback;
   }

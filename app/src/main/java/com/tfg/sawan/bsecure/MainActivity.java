@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.tfg.sawan.bsecure.credentials.Login;
 import com.tfg.sawan.bsecure.credentials.Token;
+import com.tfg.sawan.bsecure.services.BeaconService;
 import com.tfg.sawan.bsecure.utils.Preferences;
 
 /**
@@ -200,5 +201,8 @@ public class MainActivity extends Activity {
         AnimationDrawable scan_animation =  (AnimationDrawable) scanning_image.getBackground();
 
         scan_animation.start();
+        Intent beaconIntent = new Intent(MainActivity.this, BeaconService.class);
+        startService(beaconIntent);
+        
     }
 }

@@ -21,7 +21,8 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.ParcelUuid;
 
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon;
+
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon;
 
 import java.net.URISyntaxException;
 

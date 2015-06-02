@@ -14,11 +14,12 @@ import android.os.ParcelUuid;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon;
-import com.naddiaz.tfg.physicalweblibrary.beacon.UriBeacon;
-import com.naddiaz.tfg.physicalweblibrary.config.UriBeaconConfig;
-import com.naddiaz.tfg.physicalweblibrary.utils.ScanRecord;
-import com.naddiaz.tfg.physicalweblibrary.utils.ScanResult;
+
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon;
+import com.tfg.sawan.bsecure.beacon.UriBeacon;
+import com.tfg.sawan.bsecure.config.UriBeaconConfig;
+import com.tfg.sawan.bsecure.utils.ScanRecord;
+import com.tfg.sawan.bsecure.utils.ScanResult;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;

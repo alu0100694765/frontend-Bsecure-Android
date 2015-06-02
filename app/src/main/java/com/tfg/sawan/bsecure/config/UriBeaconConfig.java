@@ -28,7 +28,8 @@ import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.util.Log;
 
-import com.naddiaz.tfg.physicalweblibrary.beacon.ConfigUriBeacon;
+
+import com.tfg.sawan.bsecure.beacon.ConfigUriBeacon;
 
 import java.net.URISyntaxException;
 import java.util.UUID;

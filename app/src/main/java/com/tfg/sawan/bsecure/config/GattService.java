@@ -29,7 +29,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.naddiaz.tfg.physicalweblibrary.config.GattRequestQueue.RequestType;
+
 
 import java.util.UUID;
 
@@ -82,24 +82,24 @@ public class GattService extends Service {
   public void writeCharacteristic(UUID uuid, byte[] value) {
     BluetoothGattCharacteristic characteristic = initializeCharacteristic(uuid);
     characteristic.setValue(value);
-    mRequestQueue.add(mBluetoothGatt, RequestType.WRITE_CHARACTERISTIC, characteristic);
+    mRequestQueue.add(mBluetoothGatt, GattRequestQueue.RequestType.WRITE_CHARACTERISTIC, characteristic);
   }
 
   public void writeCharacteristic(UUID uuid, int value, int formatType, int offset) {
     BluetoothGattCharacteristic characteristic = initializeCharacteristic(uuid);
     characteristic.setValue(value, formatType, offset);
-    mRequestQueue.add(mBluetoothGatt, RequestType.WRITE_CHARACTERISTIC, characteristic);
+    mRequestQueue.add(mBluetoothGatt, GattRequestQueue.RequestType.WRITE_CHARACTERISTIC, characteristic);
   }
 
   public void readCharacteristic(UUID uuid) {
     BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(uuid);
-    mRequestQueue.add(mBluetoothGatt, RequestType.READ_CHARACTERISTIC, characteristic);
+    mRequestQueue.add(mBluetoothGatt, GattRequestQueue.RequestType.READ_CHARACTERISTIC, characteristic);
   }
 
   public void readDescriptor(UUID characteristicUuid, UUID descriptorUuid) {
     BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(characteristicUuid);
     BluetoothGattDescriptor descriptor = characteristic.getDescriptor(descriptorUuid);
-    mRequestQueue.add(mBluetoothGatt, RequestType.READ_DESCRIPTOR, descriptor);
+    mRequestQueue.add(mBluetoothGatt, GattRequestQueue.RequestType.READ_DESCRIPTOR, descriptor);
   }
 
   /**
