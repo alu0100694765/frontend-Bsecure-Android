@@ -2,15 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tfg.sawan.bsecure" >
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-
+    <!-- This is required for the scan library. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,12 +29,27 @@
             </intent-filter>
         </activity>
 
-        <!-- Beacon Scan Service -->
         <service
             android:name=".beacon.UriBeaconDiscoveryService"
             android:enabled="true"
             android:exported="false">
         </service>
+
+        <!-- This is required for the scan library. -->
+        <service
+            android:name="org.uribeacon.scan.compat.ScanWakefulService"
+            android:exported="false">
+        </service>
+        <service
+            android:name="org.uribeacon.config.GattService"
+            android:exported="false">
+        </service>
+
+        <!-- This is required for the scan library. -->
+        <receiver android:name="org.uribeacon.scan.compat.ScanWakefulBroadcastReceiver">
+        </receiver>
+
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
