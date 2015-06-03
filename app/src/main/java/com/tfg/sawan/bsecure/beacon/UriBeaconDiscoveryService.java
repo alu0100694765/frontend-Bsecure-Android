@@ -73,9 +73,9 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class UriBeaconDiscoveryService extends Service
-                                       implements PwsClient.ResolveScanCallback,
-                                                  MdnsUrlDiscoverer.MdnsUrlDiscovererCallback,
-                                                  SsdpUrlDiscoverer.SsdpUrlDiscovererCallback {
+        implements PwsClient.ResolveScanCallback,
+        MdnsUrlDiscoverer.MdnsUrlDiscovererCallback,
+        SsdpUrlDiscoverer.SsdpUrlDiscovererCallback {
 
   private static final String TAG = "UriBeaconDiscoveryService";
   private final ScanCallback mScanCallback = new ScanCallback() {
@@ -126,7 +126,7 @@ public class UriBeaconDiscoveryService extends Service
     @Override
     public void run() {
       mCanUpdateNotifications = true;
-
+      updateNotifications();
     }
   };
 
@@ -221,12 +221,12 @@ public class UriBeaconDiscoveryService extends Service
   public void onUrlMetadataReceived(String url, PwsClient.UrlMetadata urlMetadata,
                                     long tripMillis) {
     mUrlToUrlMetadata.put(url, urlMetadata);
-
+    updateNotifications();
   }
 
   @Override
   public void onUrlMetadataIconReceived() {
-
+    updateNotifications();
   }
 
   private class DemoResolveScanCallback implements PwsClient.ResolveScanCallback {
@@ -237,7 +237,7 @@ public class UriBeaconDiscoveryService extends Service
 
     @Override
     public void onUrlMetadataIconReceived() {
-
+      updateNotifications();
     }
   }
 
@@ -261,27 +261,27 @@ public class UriBeaconDiscoveryService extends Service
       mDeviceAddressToUrl.put(mockAddress, url);
       mRegionResolver.onUpdate(mockAddress, mockRssi, mockTxPower);
       PwsClient.getInstance(this).findUrlMetadata(url, mockTxPower, mockRssi,
-                                                  UriBeaconDiscoveryService.this, TAG);
+              UriBeaconDiscoveryService.this, TAG);
     }
   }
 
   private void startSearchingForUriBeacons() {
     ScanSettings settings = new ScanSettings.Builder()
-        .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
-        .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
-        .build();
+            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+            .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+            .build();
 
     List<ScanFilter> filters = new ArrayList<>();
     filters.add(new ScanFilter.Builder()
-        .setServiceData(UriBeacon.URI_SERVICE_UUID,
-            new byte[]{},
-            new byte[]{})
-        .build());
+            .setServiceData(UriBeacon.URI_SERVICE_UUID,
+                    new byte[]{},
+                    new byte[]{})
+            .build());
     filters.add(new ScanFilter.Builder()
-        .setServiceData(UriBeacon.TEST_SERVICE_UUID,
-            new byte[]{},
-            new byte[]{})
-        .build());
+            .setServiceData(UriBeacon.TEST_SERVICE_UUID,
+                    new byte[]{},
+                    new byte[]{})
+            .build());
 
     boolean started = getLeScanner().startScan(filters, settings, mScanCallback);
     Log.v(TAG, started ? "... scan started" : "... scan NOT started");
@@ -309,7 +309,7 @@ public class UriBeaconDiscoveryService extends Service
             mDeviceAddressToUrl.put(address, url);
             // Fetch the metadata for this url
             PwsClient.getInstance(this).findUrlMetadata(url, txPower, rssi,
-                                                        UriBeaconDiscoveryService.this, TAG);
+                    UriBeaconDiscoveryService.this, TAG);
           }
           // Update the ranging data
           mRegionResolver.onUpdate(address, rssi, txPower);
@@ -318,6 +318,17 @@ public class UriBeaconDiscoveryService extends Service
     }
   }
 
+  /**
+   * Create a new set of notifications or update those existing
+   */
+  private void updateNotifications() {
+    if (!mCanUpdateNotifications) {
+      return;
+    }
+
+    mSortedDevices = getSortedBeaconsWithMetadata();
+
+  }
 
   private ArrayList<String> getSortedBeaconsWithMetadata() {
     ArrayList<String> unSorted = new ArrayList<>(mDeviceAddressToUrl.size());
@@ -329,6 +340,7 @@ public class UriBeaconDiscoveryService extends Service
     Collections.sort(unSorted, new MetadataComparator(mUrlToUrlMetadata));
     return unSorted;
   }
+
 
   private PendingIntent createReturnToAppPendingIntent() {
     Intent intent = new Intent(this, MainActivity.class);

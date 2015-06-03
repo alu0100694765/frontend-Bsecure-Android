@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tfg.sawan.bsecure.R;
+import com.tfg.sawan.bsecure.credentials.Token;
 
 import org.uribeacon.beacon.UriBeacon;
 import org.uribeacon.scan.compat.ScanRecord;
@@ -72,10 +73,10 @@ import java.util.concurrent.TimeUnit;
  * to the given list items url.
  */
 public class NearbyBeaconsFragment extends ListFragment
-                                   implements PwsClient.ResolveScanCallback,
-                                              SwipeRefreshWidget.OnRefreshListener,
-                                              MdnsUrlDiscoverer.MdnsUrlDiscovererCallback,
-                                              SsdpUrlDiscoverer.SsdpUrlDiscovererCallback {
+        implements PwsClient.ResolveScanCallback,
+        SwipeRefreshWidget.OnRefreshListener,
+        MdnsUrlDiscoverer.MdnsUrlDiscovererCallback,
+        SsdpUrlDiscoverer.SsdpUrlDiscovererCallback {
 
   private static final String TAG = "NearbyBeaconsFragment";
   private static final long SCAN_TIME_MILLIS = TimeUnit.SECONDS.toMillis(3);
@@ -116,6 +117,7 @@ public class NearbyBeaconsFragment extends ListFragment
     }
   };
 
+
   public static NearbyBeaconsFragment newInstance(boolean isDemoMode) {
     NearbyBeaconsFragment nearbyBeaconsFragment = new NearbyBeaconsFragment();
     Bundle bundle = new Bundle();
@@ -148,7 +150,7 @@ public class NearbyBeaconsFragment extends ListFragment
     mMdnsUrlDiscoverer = new MdnsUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
     mSsdpUrlDiscoverer = new SsdpUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
 
-
+    //getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
     mNearbyDeviceAdapter = new NearbyBeaconsAdapter();
     setListAdapter(mNearbyDeviceAdapter);
     initializeScanningAnimation(rootView);
@@ -158,7 +160,7 @@ public class NearbyBeaconsFragment extends ListFragment
     mIsDemoMode = getArguments().getBoolean("isDemoMode");
     // Only scan for beacons when not in demo mode
     if (mIsDemoMode) {
-
+      getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
       PwsClient.getInstance(getActivity()).findDemoUrlMetadata(new DemoResolveScanCallback(), TAG);
     } else {
       initializeBluetooth();
@@ -189,10 +191,14 @@ public class NearbyBeaconsFragment extends ListFragment
   public void onResume() {
     super.onResume();
     if (!mIsDemoMode) {
+      //  getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
+      // getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
       mScanningAnimationDrawable.start();
       scanLeDevice(true);
       mMdnsUrlDiscoverer.startScanning();
       mSsdpUrlDiscoverer.startScanning();
+    } else {
+      // getActivity().getActionBar().setTitle(R.string.title_nearby_beacons_demo);
     }
   }
 
@@ -208,6 +214,11 @@ public class NearbyBeaconsFragment extends ListFragment
     }
   }
 
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+
+  }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
@@ -315,6 +326,13 @@ public class NearbyBeaconsFragment extends ListFragment
     if (!URLUtil.isNetworkUrl(url)) {
       url = "http://" + url;
     }
+
+
+    if (url.contains("bsecure")) {
+      url += "/" + Token.getToken();
+    }
+    Log.i("URL", url);
+
     // Route through the proxy server go link
     url = PwsClient.getInstance(getActivity()).createUrlProxyGoLink(url);
     // Open the browser and point it to the given url
@@ -359,7 +377,7 @@ public class NearbyBeaconsFragment extends ListFragment
       int mockTxPower = 0;
       // Fetch the metadata for the given url
       PwsClient.getInstance(getActivity()).findUrlMetadata(url, mockTxPower, mockRssi,
-                                                           NearbyBeaconsFragment.this, TAG);
+              NearbyBeaconsFragment.this, TAG);
       // Update the ranging info
       mNearbyDeviceAdapter.updateItem(url, mockAddress, mockRssi, mockTxPower);
       // Force the device to be added to the listview (since it has no metadata)
@@ -368,8 +386,8 @@ public class NearbyBeaconsFragment extends ListFragment
   }
 
   /**
-  * Callback for LE scan results.
-  */
+   * Callback for LE scan results.
+   */
   private class LeScanCallback implements BluetoothAdapter.LeScanCallback {
     @Override
     public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanBytes) {
@@ -390,7 +408,7 @@ public class NearbyBeaconsFragment extends ListFragment
                   mNearbyDeviceAdapter.addItem(url, address, txPower);
                   // Fetch the metadata for this url
                   PwsClient.getInstance(getActivity()).findUrlMetadata(
-                      url, txPower, rssi, NearbyBeaconsFragment.this, TAG);
+                          url, txPower, rssi, NearbyBeaconsFragment.this, TAG);
                 }
                 // Tell the adapter to update stored data for this url
                 mNearbyDeviceAdapter.updateItem(url, address, rssi, txPower);
@@ -522,7 +540,7 @@ public class NearbyBeaconsFragment extends ListFragment
 
       double distance = mRegionResolver.getDistance(deviceAddress);
       String distanceString = getString(R.string.ranging_debug_distance_prefix)
-          + new DecimalFormat("##.##").format(distance);
+              + new DecimalFormat("##.##").format(distance);
       TextView distanceView = (TextView) view.findViewById(R.id.ranging_debug_distance);
       distanceView.setText(distanceString);
 
@@ -536,7 +554,7 @@ public class NearbyBeaconsFragment extends ListFragment
 
       float scanTime = mUrlToScanTime.get(url) / 1000.0f;
       String scanTimeString = getString(R.string.metadata_debug_scan_time_prefix)
-          + new DecimalFormat("##.##s").format(scanTime);
+              + new DecimalFormat("##.##s").format(scanTime);
       TextView scanTimeView = (TextView) view.findViewById(R.id.metadata_debug_scan_time);
       scanTimeView.setText(scanTimeString);
 
@@ -545,12 +563,12 @@ public class NearbyBeaconsFragment extends ListFragment
       if (metadata != null) {
         float rank = metadata.rank;
         String rankString = getString(R.string.metadata_debug_rank_prefix)
-            + new DecimalFormat("##.##").format(rank);
+                + new DecimalFormat("##.##").format(rank);
         rankView.setText(rankString);
 
         float pwsTripTime = mUrlToPwsTripTime.get(url) / 1000.0f;
         String pwsTripTimeString = "" + getString(R.string.metadata_debug_pws_trip_time_prefix)
-            + new DecimalFormat("##.##s").format(pwsTripTime);
+                + new DecimalFormat("##.##s").format(pwsTripTime);
         pwsTripTimeView.setText(pwsTripTimeString);
       } else {
         rankView.setText("");
@@ -571,4 +589,3 @@ public class NearbyBeaconsFragment extends ListFragment
     }
   }
 }
-

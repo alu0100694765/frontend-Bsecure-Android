@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="org.physical_web.physicalweb.BeaconConfigFragment"
-                android:background="#fff0f0f0"
+                android:background="@color/solid_blue"
                 android:clickable="true">
 
     <TextView
@@ -91,7 +91,7 @@
                     android:gravity="end"
                     android:fontFamily="sans-serif-medium"
                     android:textSize="14sp"
-                    android:textColor="@color/config_save_url_button"
+                    android:textColor="@color/solid_blue"
                     android:id="@+id/edit_card_save"/>
         </LinearLayout>
 
