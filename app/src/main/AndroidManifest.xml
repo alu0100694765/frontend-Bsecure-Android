@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tfg.sawan.bsecure" >
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -28,9 +29,10 @@
 
         <!-- Beacon Scan Service -->
         <service
-        android:name=".services.BeaconService"
-        android:exported="false" />
-
+            android:name=".beacon.UriBeaconDiscoveryService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

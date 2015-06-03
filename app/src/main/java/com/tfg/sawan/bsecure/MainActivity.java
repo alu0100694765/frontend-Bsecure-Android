@@ -5,16 +5,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +19,7 @@ import com.tfg.sawan.bsecure.beacon.BeaconConfigFragment;
 import com.tfg.sawan.bsecure.beacon.NearbyBeaconsFragment;
 import com.tfg.sawan.bsecure.credentials.Login;
 import com.tfg.sawan.bsecure.credentials.Token;
-import com.tfg.sawan.bsecure.services.BeaconService;
-import com.tfg.sawan.bsecure.services.UriBeaconDiscoveryService;
+import com.tfg.sawan.bsecure.beacon.UriBeaconDiscoveryService;
 import com.tfg.sawan.bsecure.utils.Preferences;
 
 /**
@@ -150,7 +146,7 @@ public class MainActivity extends Activity {
     }
 
     protected void onConfig() {
-
+        showBeaconConfigFragment();
     }
 
 
