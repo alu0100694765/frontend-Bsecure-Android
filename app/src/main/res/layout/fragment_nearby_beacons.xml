@@ -5,8 +5,8 @@
     android:id="@+id/swipe_refresh_widget">
 
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/solid_blue">
+        android:layout_height="match_parent"
+        android:background="@color/solid_blue">
 
         <ListView
             android:id="@android:id/list"

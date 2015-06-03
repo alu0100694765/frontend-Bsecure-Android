@@ -28,11 +28,10 @@ repositories{
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.mcxiaoke.volley:library:1.0.+'
+    compile 'com.google.api-client:google-api-client:1.19.0'
     compile 'com.google.apis:google-api-services-urlshortener:v1-rev33-1.19.0'
     compile 'com.google.http-client:google-http-client:1.19.0'
     compile 'com.google.http-client:google-http-client-android:1.19.0'
-
     compile 'com.android.volley:volley@aar'
     compile 'org.uribeacon:uribeacon-library-release@aar'
 }

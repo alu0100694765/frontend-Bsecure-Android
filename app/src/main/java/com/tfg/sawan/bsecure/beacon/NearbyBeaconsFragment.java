@@ -91,7 +91,7 @@ public class NearbyBeaconsFragment extends ListFragment
   private Handler mHandler;
   private NearbyBeaconsAdapter mNearbyDeviceAdapter;
   private Parcelable[] mScanFilterUuids;
-  private SwipeRefreshWidget mSwipeRefreshWidget;
+  private com.tfg.sawan.bsecure.utils.SwipeRefreshWidget mSwipeRefreshWidget;
   private MdnsUrlDiscoverer mMdnsUrlDiscoverer;
   private SsdpUrlDiscoverer mSsdpUrlDiscoverer;
   private boolean mDebugViewEnabled = false;
@@ -141,14 +141,14 @@ public class NearbyBeaconsFragment extends ListFragment
     mHandler = new Handler();
     mScanFilterUuids = new ParcelUuid[]{UriBeacon.URI_SERVICE_UUID, UriBeacon.TEST_SERVICE_UUID};
 
-    mSwipeRefreshWidget = (SwipeRefreshWidget) rootView.findViewById(R.id.swipe_refresh_widget);
+    mSwipeRefreshWidget = (com.tfg.sawan.bsecure.utils.SwipeRefreshWidget) rootView.findViewById(R.id.swipe_refresh_widget);
     mSwipeRefreshWidget.setColorSchemeResources(R.color.swipe_refresh_widget_first_color, R.color.swipe_refresh_widget_second_color);
     mSwipeRefreshWidget.setOnRefreshListener(this);
 
     mMdnsUrlDiscoverer = new MdnsUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
     mSsdpUrlDiscoverer = new SsdpUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
 
-    getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
+
     mNearbyDeviceAdapter = new NearbyBeaconsAdapter();
     setListAdapter(mNearbyDeviceAdapter);
     initializeScanningAnimation(rootView);
@@ -158,7 +158,7 @@ public class NearbyBeaconsFragment extends ListFragment
     mIsDemoMode = getArguments().getBoolean("isDemoMode");
     // Only scan for beacons when not in demo mode
     if (mIsDemoMode) {
-      getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
       PwsClient.getInstance(getActivity()).findDemoUrlMetadata(new DemoResolveScanCallback(), TAG);
     } else {
       initializeBluetooth();
@@ -189,14 +189,10 @@ public class NearbyBeaconsFragment extends ListFragment
   public void onResume() {
     super.onResume();
     if (!mIsDemoMode) {
-      getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
-      getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
       mScanningAnimationDrawable.start();
       scanLeDevice(true);
       mMdnsUrlDiscoverer.startScanning();
       mSsdpUrlDiscoverer.startScanning();
-    } else {
-      getActivity().getActionBar().setTitle(R.string.title_nearby_beacons_demo);
     }
   }
 
