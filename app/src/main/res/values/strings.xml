@@ -10,6 +10,7 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="tap_me">Tap for scan!</string>
+    <string name="config_beacon_button">Configurate Beacon</string>
     <string name="action_config">Edit URLs</string>
 
     <string name="action_about">About</string>
