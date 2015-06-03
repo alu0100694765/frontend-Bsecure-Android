@@ -260,7 +260,6 @@ public class MainActivity extends Activity {
     private void showBeaconConfigFragment() {
         BeaconConfigFragment beaconConfigFragment = BeaconConfigFragment.newInstance();
         getFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fade_in_and_slide_up_fragment, R.anim.fade_out_fragment, R.anim.fade_in_activity, R.anim.fade_out_fragment)
                 .replace(R.id.main_activity_container, beaconConfigFragment)
                 .addToBackStack(null)
                 .commit();

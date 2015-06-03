@@ -124,7 +124,7 @@ public class BeaconConfigFragment extends Fragment implements TextView.OnEditorA
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_beacon_config, container, false);
+    View view = (ViewGroup) inflater.inflate(R.layout.fragment_beacon_config, container, false);
 
     mEditCard = (LinearLayout) view.findViewById(R.id.edit_card);
 
