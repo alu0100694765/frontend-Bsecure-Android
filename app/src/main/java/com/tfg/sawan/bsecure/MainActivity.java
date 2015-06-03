@@ -131,6 +131,12 @@ public class MainActivity extends Activity {
                 logout();
             }
         });
+        config_beacon_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onConfig();
+            }
+        });
     }
 
     protected void logout() {
@@ -142,7 +148,9 @@ public class MainActivity extends Activity {
         finish();
     }
 
-
+    protected void onConfig() {
+        
+    }
 
 
     protected void loadCredentials () {
