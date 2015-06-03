@@ -39,14 +39,14 @@ import android.util.Log;
  * TODO: Rename this class since url shortening has been refactored to the
  *       PwsClient.
  */
-class UrlShortener {
+public class UrlShortener {
 
   private static final String TAG = "UrlShortener";
 
   /**
    * A callback to be invoked when done lengthening or shortening a url
    */
-  interface ModifiedUrlCallback {
+   public interface ModifiedUrlCallback {
     void onNewUrl(String newUrl);
     void onError(String oldUrl);
   }
@@ -70,7 +70,7 @@ class UrlShortener {
     private ModifiedUrlCallback mCallback;
     private String mShortUrl;
 
-    LengthenShortUrlTask(ModifiedUrlCallback callback) {
+    public LengthenShortUrlTask(ModifiedUrlCallback callback) {
       mCallback = callback;
     }
 

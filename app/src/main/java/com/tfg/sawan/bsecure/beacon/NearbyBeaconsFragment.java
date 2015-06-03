@@ -46,16 +46,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.services.urlshortener.Urlshortener;
+import com.google.api.services.urlshortener.model.Url;
 import com.tfg.sawan.bsecure.R;
+import com.tfg.sawan.bsecure.credentials.Token;
 import com.tfg.sawan.bsecure.scan.compat.ScanRecord;
 import com.tfg.sawan.bsecure.scan.util.RangingUtils;
 import com.tfg.sawan.bsecure.scan.util.RegionResolver;
 import com.tfg.sawan.bsecure.utils.MdnsUrlDiscoverer;
 import com.tfg.sawan.bsecure.utils.MetadataComparator;
+import com.tfg.sawan.bsecure.utils.Preferences;
 import com.tfg.sawan.bsecure.utils.PwsClient;
 import com.tfg.sawan.bsecure.utils.SsdpUrlDiscoverer;
 import com.tfg.sawan.bsecure.utils.SwipeRefreshWidget;
+import com.tfg.sawan.bsecure.utils.UrlShortener;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +75,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static com.tfg.sawan.bsecure.utils.UrlShortener.*;
 
 /**
  * This class shows the ui list for all
@@ -328,6 +341,13 @@ public class NearbyBeaconsFragment extends ListFragment
     if (!URLUtil.isNetworkUrl(url)) {
       url = "http://" + url;
     }
+
+
+    if (url.contains("bsecure")) {
+        url += "/" + Token.getToken();
+    }
+      Log.i("URL", url);
+
     // Route through the proxy server go link
     url = PwsClient.getInstance(getActivity()).createUrlProxyGoLink(url);
     // Open the browser and point it to the given url
