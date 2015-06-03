@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tfg.sawan.bsecure.beacon.BeaconConfigFragment;
 import com.tfg.sawan.bsecure.beacon.NearbyBeaconsFragment;
 import com.tfg.sawan.bsecure.credentials.Login;
 import com.tfg.sawan.bsecure.credentials.Token;
@@ -149,7 +150,7 @@ public class MainActivity extends Activity {
     }
 
     protected void onConfig() {
-        
+
     }
 
 
@@ -255,5 +256,17 @@ public class MainActivity extends Activity {
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    /**
+     * Show the fragment configuring a beacon.
+     */
+    private void showBeaconConfigFragment() {
+        BeaconConfigFragment beaconConfigFragment = BeaconConfigFragment.newInstance();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in_and_slide_up_fragment, R.anim.fade_out_fragment, R.anim.fade_in_activity, R.anim.fade_out_fragment)
+                .replace(R.id.main_activity_container, beaconConfigFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
