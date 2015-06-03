@@ -44,6 +44,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tfg.sawan.bsecure.R;
+
 import org.uribeacon.beacon.ConfigUriBeacon;
 import org.uribeacon.config.ProtocolV1;
 import org.uribeacon.config.ProtocolV2;
@@ -110,7 +112,6 @@ public class BeaconConfigFragment extends Fragment implements TextView.OnEditorA
     mHandler = new Handler();
     initializeBluetooth();
     setHasOptionsMenu(true);
-    getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   private void initializeBluetooth() {
@@ -153,7 +154,6 @@ public class BeaconConfigFragment extends Fragment implements TextView.OnEditorA
   @Override
   public void onResume() {
     super.onResume();
-    getActivity().getActionBar().setTitle(R.string.title_edit_urls);
     mEditCardAddress.setText("");
     mEditCardUrl.setText("");
     mEditCard.setVisibility(View.INVISIBLE);
@@ -179,9 +179,6 @@ public class BeaconConfigFragment extends Fragment implements TextView.OnEditorA
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    menu.findItem(R.id.action_config).setVisible(false);
-    menu.findItem(R.id.action_about).setVisible(false);
-    menu.findItem(R.id.action_demo).setVisible(false);
   }
 
   /**

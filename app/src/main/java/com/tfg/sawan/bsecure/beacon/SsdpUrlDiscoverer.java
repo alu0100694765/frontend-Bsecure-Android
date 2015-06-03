@@ -19,8 +19,9 @@ package com.tfg.sawan.bsecure.beacon;
 import android.content.Context;
 import android.util.Log;
 
-import org.physical_web.physicalweb.ssdp.Ssdp;
-import org.physical_web.physicalweb.ssdp.SsdpMessage;
+
+import com.tfg.sawan.bsecure.beacon.ssdp.Ssdp;
+import com.tfg.sawan.bsecure.beacon.ssdp.SsdpMessage;
 
 import java.io.IOException;
 

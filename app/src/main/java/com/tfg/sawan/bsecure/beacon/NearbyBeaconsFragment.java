@@ -45,6 +45,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tfg.sawan.bsecure.R;
+
 import org.uribeacon.beacon.UriBeacon;
 import org.uribeacon.scan.compat.ScanRecord;
 import org.uribeacon.scan.compat.ScanResult;
@@ -210,19 +212,6 @@ public class NearbyBeaconsFragment extends ListFragment
     }
   }
 
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    if (mIsDemoMode) {
-      menu.findItem(R.id.action_config).setVisible(false);
-      menu.findItem(R.id.action_about).setVisible(false);
-      menu.findItem(R.id.action_demo).setVisible(false);
-    } else {
-      menu.findItem(R.id.action_config).setVisible(true);
-      menu.findItem(R.id.action_about).setVisible(true);
-      menu.findItem(R.id.action_demo).setVisible(true);
-    }
-  }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
