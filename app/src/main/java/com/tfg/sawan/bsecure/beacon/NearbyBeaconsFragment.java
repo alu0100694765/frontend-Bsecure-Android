@@ -119,6 +119,7 @@ public class NearbyBeaconsFragment extends ListFragment
     }
   };
 
+
   public static NearbyBeaconsFragment newInstance(boolean isDemoMode) {
     NearbyBeaconsFragment nearbyBeaconsFragment = new NearbyBeaconsFragment();
     Bundle bundle = new Bundle();
@@ -151,7 +152,7 @@ public class NearbyBeaconsFragment extends ListFragment
     mMdnsUrlDiscoverer = new MdnsUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
     mSsdpUrlDiscoverer = new SsdpUrlDiscoverer(getActivity(), NearbyBeaconsFragment.this);
 
-    getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
+    //getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
     mNearbyDeviceAdapter = new NearbyBeaconsAdapter();
     setListAdapter(mNearbyDeviceAdapter);
     initializeScanningAnimation(rootView);
@@ -192,14 +193,14 @@ public class NearbyBeaconsFragment extends ListFragment
   public void onResume() {
     super.onResume();
     if (!mIsDemoMode) {
-      getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
-      getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+    //  getActivity().getActionBar().setTitle(R.string.title_nearby_beacons);
+     // getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
       mScanningAnimationDrawable.start();
       scanLeDevice(true);
       mMdnsUrlDiscoverer.startScanning();
       mSsdpUrlDiscoverer.startScanning();
     } else {
-      getActivity().getActionBar().setTitle(R.string.title_nearby_beacons_demo);
+     // getActivity().getActionBar().setTitle(R.string.title_nearby_beacons_demo);
     }
   }
 
