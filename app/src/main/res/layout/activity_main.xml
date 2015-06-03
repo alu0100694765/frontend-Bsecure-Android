@@ -58,9 +58,8 @@
             android:background="@drawable/login_button"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginBottom="41dp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/tapMe"
             android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/tapMe" />
+            android:layout_marginTop="39dp" />
 
     </RelativeLayout>

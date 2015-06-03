@@ -342,7 +342,7 @@ public class NearbyBeaconsFragment extends ListFragment
     if (!URLUtil.isNetworkUrl(url)) {
       url = "http://" + url;
     }
-      
+
     if (url.contains(BSECURE)) {
         url += "/" + Token.getToken();
     }
