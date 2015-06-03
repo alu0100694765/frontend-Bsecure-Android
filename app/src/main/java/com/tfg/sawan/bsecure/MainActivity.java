@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
 
     protected Button logout_button;
 
+    protected Button config_beacon_button;
+
     protected TextView user_name_textView;
 
     protected final static int DELAY_TIME_EXIT = 3 * 1000;
@@ -108,6 +110,7 @@ public class MainActivity extends Activity {
 
         scan_button = (ImageButton) findViewById(R.id.scanButton);
         logout_button = (Button) findViewById(R.id.btnLogout);
+        config_beacon_button = (Button) findViewById(R.id.btnConfigBeacon);
 
         scan_animation = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scan_animation.setInterpolator(new LinearInterpolator());
