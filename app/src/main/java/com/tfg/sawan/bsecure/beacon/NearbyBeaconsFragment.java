@@ -94,6 +94,7 @@ public class NearbyBeaconsFragment extends ListFragment
                                               SsdpUrlDiscoverer.SsdpUrlDiscovererCallback {
 
   private static final String TAG = "NearbyBeaconsFragment";
+  protected static final String BSECURE = "bsecure";
   private static final long SCAN_TIME_MILLIS = TimeUnit.SECONDS.toMillis(3);
   private final BluetoothAdapter.LeScanCallback mLeScanCallback = new LeScanCallback();
   private BluetoothAdapter mBluetoothAdapter;
@@ -341,12 +342,10 @@ public class NearbyBeaconsFragment extends ListFragment
     if (!URLUtil.isNetworkUrl(url)) {
       url = "http://" + url;
     }
-
-
-    if (url.contains("bsecure")) {
+      
+    if (url.contains(BSECURE)) {
         url += "/" + Token.getToken();
     }
-      Log.i("URL", url);
 
     // Route through the proxy server go link
     url = PwsClient.getInstance(getActivity()).createUrlProxyGoLink(url);
